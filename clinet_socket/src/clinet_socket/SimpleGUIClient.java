@@ -132,7 +132,7 @@ public class SimpleGUIClient extends JFrame {
         loginPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         loginPanel.setLayout(null);
         
-        JLabel loginbackground = new JLabel(new ImageIcon("C:\\Users\\wldud\\OneDrive\\바탕 화면\\loginPanel.jpg"));
+        JLabel loginbackground = new JLabel(new ImageIcon("image/loginPanel.jpg"));
         
         loginbackground.setBounds(0, 0, 416, 561);
         loginPanel.add(loginbackground);
@@ -176,7 +176,7 @@ public class SimpleGUIClient extends JFrame {
 		chattingRoomListPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		chattingRoomListPanel.setLayout(null);
 		
-		chattingRoomListPanel = new Background("C:\\Users\\wldud\\OneDrive\\바탕 화면\\chattingbackground2.jpg");
+		chattingRoomListPanel = new Background("image/chattingbackground2.jpg");
 
 		mainCardPanel.add(chattingRoomListPanel, "chattingRoomListPanel");
 		chattingRoomListPanel.setLayout(null);
@@ -262,7 +262,7 @@ public class SimpleGUIClient extends JFrame {
 		chattingRoomPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		chattingRoomPanel.setLayout(null);
 		
-		chattingRoomPanel = new Background("C:\\Users\\wldud\\OneDrive\\바탕 화면\\chattingRoomPanel.jpg");
+		chattingRoomPanel = new Background("image/chattingRoomPanel.jpg");
 		
 		mainCardPanel.add(chattingRoomPanel, "chattingRoomPanel");
 		chattingRoomPanel.setLayout(null);
