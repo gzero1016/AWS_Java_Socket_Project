@@ -301,6 +301,11 @@ public class SimpleGUIClient extends JFrame {
 	            if (selectedIndex >= 0) {
 	            	
 	                fromUsername = userListModel.getElementAt(selectedIndex);
+	                
+	                if(fromUsername.contains("( 방장 )")) {
+	                	fromUsername = fromUsername.replace("( 방장 )", "");
+	                }
+	                
 	                TargetLabel.setText(fromUsername);
 
 	                whisperMessage = SendMessage.builder()

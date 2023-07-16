@@ -97,21 +97,16 @@ public class ClientReceiver extends Thread {
 	//방 유저 업데이트 리스트
 	private void updateUserList(String requestBody) {
 	    List<String> usernameList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-	    String roomOwner = usernameList.get(0);
+	    
 	    String clientUsername = SimpleGUIClient.getInstance().getUsername();
 
 	    SimpleGUIClient.getInstance().getUserListModel().clear();
-
+	    
 	    for (String username : usernameList) {
-	        if (username.equals(clientUsername) && username.equals(roomOwner)) {
-	        	
-	            SimpleGUIClient.getInstance().getUserListModel().addElement("<html><b><font color='blue'>" + username + "( 방장 )</font></b></html>");
-	        } else if (username.equals(clientUsername)) {
+	            
+	        if (username.equals(clientUsername)) {
 	        	
 	            SimpleGUIClient.getInstance().getUserListModel().addElement("<html><b><font color='blue'>" + username + "</font></b></html>");
-	        } else if (username.equals(roomOwner)) {
-	        	
-	            SimpleGUIClient.getInstance().getUserListModel().addElement("<html><b>" + username + "( 방장 )</b></html>");
 	        } else {
 	        	
 	            SimpleGUIClient.getInstance().getUserListModel().addElement(username);
