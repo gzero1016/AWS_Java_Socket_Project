@@ -235,7 +235,6 @@ public class SimpleGUIClient extends JFrame {
 					JOptionPane.showMessageDialog(chattingRoomListPanel, "방제목을 입력하세요.", "방만들기 실패", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
 				// roomListModel 안에 roomName이 들어있는데 동일한 방제목이 있을 시 에러메시지 띄어주고 리턴(마우스 이벤트 메소드 빠져나가는 리턴)
 				for(int i = 0; i < roomListModel.size(); i++) {
 					if(roomListModel.get(i).equals(roomName)) {
@@ -243,7 +242,6 @@ public class SimpleGUIClient extends JFrame {
 						return;
 					}
 				}
-				
 				// 정상적인 방제목입력 할 시 정상 처리
 				RequestBodyDto<String> requestBodyDto = new RequestBodyDto<String>("createRoom", roomName);
 				ClientSender.getInstance().send(requestBodyDto);
@@ -334,9 +332,8 @@ public class SimpleGUIClient extends JFrame {
 				if(e.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
 			        String messageBody = messageTextField.getText();
 
-			        whisperMessage.setMessageBody(messageBody);
-
 			        if (!TargetLabel.getText().equals("전체")) {
+			        	whisperMessage.setMessageBody(messageBody);
 			            RequestBodyDto<SendMessage> requestBodyDto =
 			                    new RequestBodyDto<>("sendWhisperMessage", whisperMessage);
 			            ClientSender.getInstance().send(requestBodyDto);
@@ -351,9 +348,7 @@ public class SimpleGUIClient extends JFrame {
 			                    new RequestBodyDto<>("sendMessage", sendMessage);
 			            ClientSender.getInstance().send(requestBodyDto);
 			        }
-			        TargetLabel.setText("전체");
-			        whisperMessage.setFromUsername("");
-			        whisperMessage.setToUsername("");
+			        TargetLabel.setText("전체");	
 			        messageTextField.setText("");
 			    }
 			}

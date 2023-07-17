@@ -50,8 +50,7 @@ public class ClientReceiver extends Thread {
 			case "showMessage":
 				showMessage(requestBody);
 				break;
-				
-				
+			
 			case "updateUserList":
 				updateUserList(requestBody);
 				break;
@@ -102,7 +101,6 @@ public class ClientReceiver extends Thread {
 	    SimpleGUIClient.getInstance().getUserListModel().clear();
 	    SimpleGUIClient.getInstance().getUserListModel().addAll(usernameList);
 	}
-
 	
 	// 채팅방 삭제
 	private void chattingTextClear(String requestBody) {

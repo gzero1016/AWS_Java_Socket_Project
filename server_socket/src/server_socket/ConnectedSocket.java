@@ -148,6 +148,7 @@ public class ConnectedSocket extends Thread {
 				room.getUserList().forEach(connectedSocket -> {
 					RequestBodyDto<List<String>> updateUserListDto = new RequestBodyDto<List<String>> ("updateUserList", usernameList);
 					RequestBodyDto<String> joinMessageDto = new RequestBodyDto<String>("showMessage", username + "님이 들어왔습니다.");
+					RequestBodyDto<Object> userListInitSelectedDto = new RequestBodyDto<Object>("userListInitSelected", null);
 					
 					ServerSender.getInstance().send(connectedSocket.socket, updateUserListDto);
 					try {
