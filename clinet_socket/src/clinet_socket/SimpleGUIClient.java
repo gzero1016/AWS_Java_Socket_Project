@@ -324,6 +324,7 @@ public class SimpleGUIClient extends JFrame {
 		
 		//채팅입력창
 		messageTextField = new JTextField();
+		SendMessage whisperMessage = new SendMessage();
 		messageTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
