@@ -89,7 +89,7 @@ public class ClientReceiver extends Thread {
 	// 메세지
 	private void showMessage(String requestBody) {
 		String messageContent = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-		SimpleGUIClient.getInstance().getChattingTextArea().append("[전체] " + messageContent + ": " + "\n");
+		SimpleGUIClient.getInstance().getChattingTextArea().append("[전체] " + messageContent + "" + "\n");
 	}
 	
 	//방 유저 업데이트 리스트

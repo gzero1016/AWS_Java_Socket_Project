@@ -180,7 +180,7 @@ public class ConnectedSocket extends Thread {
 				room.getUserList().forEach(connectedSocket -> {
 					RequestBodyDto<String> dto = 
 							new RequestBodyDto<String>("showMessage", 
-									sendMessage.getFromUsername() + ": " + sendMessage.getMessageBody());
+									sendMessage.getFromUsername() + " : " + sendMessage.getMessageBody());
 					
 					ServerSender.getInstance().send(connectedSocket.socket, dto);
 				});

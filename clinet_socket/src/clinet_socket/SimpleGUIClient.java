@@ -150,6 +150,7 @@ public class SimpleGUIClient extends JFrame {
         
         //로그인 아이디 필드
         usernameTextField = new JTextField();
+        usernameTextField.setFont(new Font("HY엽서M", Font.PLAIN, 15));
         usernameTextField.setEnabled(true);
         usernameTextField.addKeyListener(new KeyAdapter() {
         	@Override
@@ -174,14 +175,15 @@ public class SimpleGUIClient extends JFrame {
             }
         });
         
-        usernameTextField.setBounds(12, 470, 291, 41);
-        loginPanel.add(usernameTextField);
+        usernameTextField.setBounds(33, 470, 237, 41);
         usernameTextField.setColumns(10);
         usernameTextField.setEnabled(true);
+        loginbackground.add(usernameTextField);
 
         //로그인 버튼
         loginButton = new JButton("로그인");
-        loginButton.setBounds(315, 457, 75, 66);
+        usernameTextField.setFont(new Font("HY엽서M", Font.PLAIN, 13));
+        loginButton.setBounds(282, 470, 108, 41);
         loginButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -203,7 +205,7 @@ public class SimpleGUIClient extends JFrame {
                 
             }
         });
-        loginPanel.add(loginButton);
+        loginbackground.add(loginButton);
 		
         //대기실
 		chattingRoomListPanel = new JPanel();
@@ -218,7 +220,7 @@ public class SimpleGUIClient extends JFrame {
 		// 내이름라벨
 		usernameLabel = new JLabel();
 		usernameLabel.setBounds(95, 58, 104, 24);
-		usernameLabel.setFont(usernameLabel.getFont().deriveFont(20f).deriveFont(Font.BOLD));
+		usernameLabel.setFont(new Font("HY엽서M", Font.PLAIN, 20));
 		usernameLabel.setForeground(Color.BLACK);
 		usernameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		chattingRoomListPanel.add(usernameLabel);
@@ -233,7 +235,7 @@ public class SimpleGUIClient extends JFrame {
 		roomList = new JList<>(roomListModel);
 
 		Font boldFont = roomList.getFont().deriveFont(Font.BOLD);
-		roomList.setFont(boldFont);
+		roomList.setFont(new Font("HY엽서M", Font.PLAIN, 15));
 		roomList.setForeground(Color.BLACK);
 		
 		roomList.addMouseListener(new MouseAdapter() {
@@ -256,7 +258,7 @@ public class SimpleGUIClient extends JFrame {
 		//방만들기 버튼
 		createRoomButton = new JButton("방만들기");
 		createRoomButton.setBounds(299, 53, 104, 34);
-		createRoomButton.setFont(createRoomButton.getFont().deriveFont(15f).deriveFont(Font.BOLD));
+		createRoomButton.setFont(new Font("HY엽서M", Font.PLAIN, 15));
 		createRoomButton.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -306,7 +308,7 @@ public class SimpleGUIClient extends JFrame {
 		chattingRoomPanel.add(roomLabel);
 		roomLabel.setEnabled(false);
 		roomLabel.setBorder(BorderFactory.createEmptyBorder());
-		roomLabel.setFont(roomLabel.getFont().deriveFont(Font.BOLD));
+		roomLabel.setFont(new Font("HY엽서M", Font.BOLD, 15));
 		roomLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		chattingRoomPanel.add(roomLabel);
 		
@@ -314,6 +316,7 @@ public class SimpleGUIClient extends JFrame {
 		JScrollPane chattingTextAreaScrollPane = new JScrollPane();
 		chattingTextAreaScrollPane.setBounds(12, 39, 277, 406);
 		chattingTextArea = new JTextArea();
+		chattingTextArea.setFont(new Font("맑은 고딕", Font.PLAIN, 11));
 		chattingTextAreaScrollPane.setViewportView(chattingTextArea);
 		
 		chattingTextArea.setEnabled(false);
@@ -322,11 +325,12 @@ public class SimpleGUIClient extends JFrame {
 
 		//채팅방안 유저리스트
 		userListScrollPane = new JScrollPane();
-		userListScrollPane.setBounds(294, 36, 109, 409);
+		userListScrollPane.setBounds(294, 39, 109, 406);
 		chattingRoomPanel.add(userListScrollPane);
 		
 		userListModel = new DefaultListModel<>();
 		userList = new JList(userListModel);
+		userList.setFont(new Font("맑은 고딕", Font.BOLD, 11));
 		
 		//userList 두번클릭시 인덱스번호 들고와서 내자신을 from유저에 , index번호에있는 user를 to유저에 집어넣음
 		userList.addMouseListener(new MouseAdapter() {
@@ -360,12 +364,14 @@ public class SimpleGUIClient extends JFrame {
 		
 		//전체,귓말 라벨
 		TargetLabel = new JLabel("전체");
+		TargetLabel.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		TargetLabel.setHorizontalAlignment(JLabel.CENTER);
-		TargetLabel.setBounds(12, 475, 55, 49);
+		TargetLabel.setBounds(12, 486, 55, 29);
 		chattingRoomPanel.add(TargetLabel);
 		
 		//채팅입력창
 		messageTextField = new JTextField();
+		messageTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 11));
 		
 		messageTextField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -401,6 +407,7 @@ public class SimpleGUIClient extends JFrame {
 		
 		//채팅입력창 전송버튼
 		sendButton = new JButton("전송");
+		sendButton.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		sendButton.addMouseListener(new MouseAdapter() {	
 
 			//전송버튼을 눌렀을때 targetLabel이 user면 귓속말 전체면 공개채팅임 귓말후 모두 초기화시켜줌
@@ -430,12 +437,13 @@ public class SimpleGUIClient extends JFrame {
 		    }
 		});
 		
-		sendButton.setBounds(323, 475, 80, 49);
+		sendButton.setBounds(323, 482, 80, 35);
 		chattingRoomPanel.add(sendButton);
 		
 		
 		//채팅방안 나가기버튼 
 		outButton = new JButton("나가기");
+		outButton.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		outButton.addMouseListener(new MouseAdapter() {
 			
 			@Override
