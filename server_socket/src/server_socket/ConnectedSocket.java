@@ -18,7 +18,6 @@ import server_socket.dto.SendMessage;
 import server_socket.entity.Room;
 
 
-
 @RequiredArgsConstructor
 @Data
 public class ConnectedSocket extends Thread {
@@ -49,6 +48,7 @@ public class ConnectedSocket extends Thread {
 	            }
 	            requestController(requestBody);
 	        }
+	        //강제 종료 시 예외처리
 	    } catch (SocketException e) {
 	        System.out.println("프로그램을 종료합니다.");
 	    } catch (IOException e) {
@@ -92,15 +92,20 @@ public class ConnectedSocket extends Thread {
 	private void connection(String requestBody) {
 		username = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
 		
+		//새로운 roomNameList를 생성
 		List<String> roomNameList = new ArrayList<>();
 		
+		//room클래스에 roomName을 가져와 반복을 돌려 roomNameList에 추가한다.
 		SimpleGUIserver.roomList.forEach(room -> {
 			roomNameList.add(room.getRoomName());
 		});
 		
+		//updateRoomListRequestBodyDto 객체를 생성해 ClientReceiver에 updateRoomList를 요청하고 roomNameList를 전달한다.
 		RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
 				new RequestBodyDto<List<String>>("updateRoomList", roomNameList);
 		
+		//클라이언트와 소통하기위해서는 ServerSender이 클라이언트에 전달한다.
+		//updateRoomListRequestBodyDto에는 updateRoomList요청과 roomNameList가 담겨있고 이걸 ServerSender에 전송한다.
 		ServerSender.getInstance().send(socket, updateRoomListRequestBodyDto);
 	}
 	
@@ -108,9 +113,9 @@ public class ConnectedSocket extends Thread {
 	private void creatRoom(String requestBody) {
 		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
 		
-		
+		//builder를 사용해 newRoom 객체생성
 		Room newRoom = Room.builder()
-			.roomName(roomName)	//받아온 roomName
+			.roomName(roomName)
 			.owner(username)
 			.userList(new ArrayList<ConnectedSocket>())
 			.build();
@@ -123,6 +128,7 @@ public class ConnectedSocket extends Thread {
 			roomNameList.add(room.getRoomName());
 		});
 		
+		//위 설명과 동일
 		RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
 				new RequestBodyDto<List<String>>("updateRoomList", roomNameList);
 		
@@ -134,7 +140,7 @@ public class ConnectedSocket extends Thread {
 	// 방 들어가기
 	private void join(String requestBody) {
 		
-		// 방 나갔을시 채팅창 초기화
+		//방 재입장 시 채팅창 초기화
 		RequestBodyDto<String> chattingTextClearDto =
 				new RequestBodyDto<String>("chattingTextClear", null);
 		ServerSender.getInstance().send(socket, chattingTextClearDto);

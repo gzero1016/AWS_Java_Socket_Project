@@ -34,6 +34,7 @@ import lombok.Getter;
 @Getter
 public class SimpleGUIClient extends JFrame {
 	
+	//싱글톤
 	private static SimpleGUIClient instance;
 	public static SimpleGUIClient getInstance() {
 		if(instance == null) {
@@ -85,10 +86,6 @@ public class SimpleGUIClient extends JFrame {
 	private boolean isWhisperMode = false;
     private String fromUsername;
 	private SendMessage whisperMessage;
-	
-	private ClientReceiver setUIFont;
-	
-	boolean isWhisperMessage;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -146,9 +143,8 @@ public class SimpleGUIClient extends JFrame {
         	@Override
         	public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
                     username = usernameTextField.getText();
-
+                    
                     if (username.isBlank()) {
                         JOptionPane.showMessageDialog(loginPanel, "닉네임을 확인해주세요.", "입장 실패", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -215,7 +211,6 @@ public class SimpleGUIClient extends JFrame {
 		usernameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		chattingRoomListPanel.add(usernameLabel);
 
-		
 		//대기실 방 목록
 		roomListScrollPanel = new JScrollPane(); 
 		roomListScrollPanel.setBounds(69, 155, 334, 395);
@@ -286,9 +281,7 @@ public class SimpleGUIClient extends JFrame {
 		chattingRoomPanel = new JPanel();
 		chattingRoomPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		chattingRoomPanel.setLayout(null);
-		
 		chattingRoomPanel = new Background("image/chattingRoomPanel.jpg");
-		
 		mainCardPanel.add(chattingRoomPanel, "chattingRoomPanel");
 		chattingRoomPanel.setLayout(null);
 		
@@ -308,7 +301,6 @@ public class SimpleGUIClient extends JFrame {
 		chattingTextArea = new JTextArea();
 		chattingTextArea.setFont(new Font("맑은 고딕", Font.PLAIN, 11));
 		chattingTextAreaScrollPane.setViewportView(chattingTextArea);
-		
 		chattingTextArea.setEnabled(false);
 		chattingTextArea.setDisabledTextColor(Color.BLACK);
 		chattingRoomPanel.add(chattingTextAreaScrollPane);
@@ -317,7 +309,6 @@ public class SimpleGUIClient extends JFrame {
 		userListScrollPane = new JScrollPane();
 		userListScrollPane.setBounds(294, 39, 109, 406);
 		chattingRoomPanel.add(userListScrollPane);
-		
 		userListModel = new DefaultListModel<>();
 		userList = new JList(userListModel);
 		userList.setFont(new Font("맑은 고딕", Font.BOLD, 11));
@@ -393,7 +384,7 @@ public class SimpleGUIClient extends JFrame {
 		
 		messageTextField.setBounds(79, 475, 232, 49);
 		chattingRoomPanel.add(messageTextField);
-		messageTextField.setColumns(10);
+		messageTextField.setColumns(13);
 		
 		//채팅입력창 전송버튼
 		sendButton = new JButton("전송");
@@ -429,7 +420,6 @@ public class SimpleGUIClient extends JFrame {
 		
 		sendButton.setBounds(323, 482, 80, 35);
 		chattingRoomPanel.add(sendButton);
-		
 		
 		//채팅방안 나가기버튼 
 		outButton = new JButton("나가기");
