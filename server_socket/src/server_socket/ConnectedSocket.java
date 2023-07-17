@@ -22,7 +22,7 @@ import server_socket.entity.Room;
 @Data
 public class ConnectedSocket extends Thread {
 	
-	private final Socket socket;	//매개변수를 socket으로 받는 생성자
+	private final Socket socket;
 	private Gson gson;
 	
 	private String username;
@@ -84,23 +84,23 @@ public class ConnectedSocket extends Thread {
 	
 	// 클라이언트 접속
 	private void connection(String requestBody) {
-		username = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();	// Body가 username을 받아옴
+		username = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
 		
-		List<String> roomNameList = new ArrayList<>();	// roomNameList 생성
+		List<String> roomNameList = new ArrayList<>();
 		
-		SimpleGUIserver.roomList.forEach(room -> {	// roomNameList에 roomName을 하나씩 빼서 새롭게 정의
+		SimpleGUIserver.roomList.forEach(room -> {
 			roomNameList.add(room.getRoomName());
 		});
 		
 		RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
 				new RequestBodyDto<List<String>>("updateRoomList", roomNameList);
 		
-		ServerSender.getInstance().send(socket, updateRoomListRequestBodyDto);	// 자기 자신에게만 방리스트 전달
+		ServerSender.getInstance().send(socket, updateRoomListRequestBodyDto);
 	}
 	
 	// 방 만들기
 	private void creatRoom(String requestBody) {
-		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();	// Body가 roomName을 받아옴
+		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
 		
 		
 		Room newRoom = Room.builder()
@@ -109,18 +109,18 @@ public class ConnectedSocket extends Thread {
 			.userList(new ArrayList<ConnectedSocket>())
 			.build();
 		
-		SimpleGUIserver.roomList.add(newRoom);	//server클래스 static리스트에 위에서 새로 생성된 리스트를 담겠다.
+		SimpleGUIserver.roomList.add(newRoom);
 		
-		List<String> roomNameList = new ArrayList<>();	//roomNameList 생성
+		List<String> roomNameList = new ArrayList<>();
 		
-		SimpleGUIserver.roomList.forEach(room -> {	//roomNameList에 roomName을 하나씩 빼서 새롭게 정의
+		SimpleGUIserver.roomList.forEach(room -> {
 			roomNameList.add(room.getRoomName());
 		});
 		
 		RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
 				new RequestBodyDto<List<String>>("updateRoomList", roomNameList);
 		
-		SimpleGUIserver.connectedSocketList.forEach(con -> {	//접속한 사용자 모두에서 roomNameList를 뿌려준다.
+		SimpleGUIserver.connectedSocketList.forEach(con -> {
 			ServerSender.getInstance().send(con.socket, updateRoomListRequestBodyDto);
 		});
 	}
@@ -137,7 +137,7 @@ public class ConnectedSocket extends Thread {
 		
 		SimpleGUIserver.roomList.forEach(room -> {
 			if(room.getRoomName().equals(roomName)) {
-				room.getUserList().add(this);	//나 자신을 리스트에 추가
+				room.getUserList().add(this);
 				
 				List<String> usernameList = new ArrayList<>();
 				
@@ -147,7 +147,7 @@ public class ConnectedSocket extends Thread {
 				
 				room.getUserList().forEach(connectedSocket -> {
 					RequestBodyDto<List<String>> updateUserListDto = new RequestBodyDto<List<String>> ("updateUserList", usernameList);
-					RequestBodyDto<String> joinMessageDto = new RequestBodyDto<String>("showMessage", username + "님이 들어왔습니다.");
+					RequestBodyDto<String> joinMessageDto = new RequestBodyDto<String>("showMessage", username + " 님이 들어왔습니다.");
 					RequestBodyDto<Object> userListInitSelectedDto = new RequestBodyDto<Object>("userListInitSelected", null);
 					
 					ServerSender.getInstance().send(connectedSocket.socket, updateUserListDto);
@@ -167,10 +167,10 @@ public class ConnectedSocket extends Thread {
 		TypeToken<RequestBodyDto<SendMessage>> typeToken = new TypeToken<>() {};
 		
 		RequestBodyDto<SendMessage> requestBodyDto = gson.fromJson(requestBody, typeToken.getType());
-		SendMessage sendMessage = requestBodyDto.getBody();	//Map으로 꺼낼 수 있던 것을 sendMessage 객체로 꺼낼 수 있음
+		SendMessage sendMessage = requestBodyDto.getBody();
 		
-		SimpleGUIserver.roomList.forEach(room -> {	//roomList를 forEach로 돌려서 내가 어느 룸에 들어있는지 확인
-			if(room.getUserList().contains(this)) {	//내가 들어있는지 확인하며 내가 포함되어있으면 true 를 준다.
+		SimpleGUIserver.roomList.forEach(room -> {
+			if(room.getUserList().contains(this)) {
 				room.getUserList().forEach(connectedSocket -> {
 					RequestBodyDto<String> dto = 
 							new RequestBodyDto<String>("showMessage", 
@@ -186,7 +186,7 @@ public class ConnectedSocket extends Thread {
 	private void roomExit(String requestBody) {
 		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
 		
-		for(int i = 0; i < SimpleGUIserver.roomList.size(); i++) {	//서버의 룸 리스트를 계속 반복하여 room에 넣어주고
+		for(int i = 0; i < SimpleGUIserver.roomList.size(); i++) {
 			Room room = SimpleGUIserver.roomList.get(i);
 			
 			if(room.getRoomName().equals(roomName)) { 
@@ -203,7 +203,7 @@ public class ConnectedSocket extends Thread {
 						RequestBodyDto<List<String>> updateUserListDto =
 								new RequestBodyDto<List<String>>("updateUserList", usernameList);
 						RequestBodyDto<String> roomExitMessageDto = 
-								new RequestBodyDto<String>("showMessage", username + "님이 나갔습니다.");
+								new RequestBodyDto<String>("showMessage", username + " 님이 나갔습니다.");
 						
 						ServerSender.getInstance().send(con.socket, updateUserListDto);
 						usernameList.get(0);
@@ -244,33 +244,23 @@ public class ConnectedSocket extends Thread {
 	    String toUsername = sendMessage.getToUsername();
 	    String messageBody = sendMessage.getMessageBody();
 
-	    // 귓속말 메시지 보낼 대상과 귓속말을 보낼 방 인원 리스트 준비
 	    ConnectedSocket targetSocket = null;
 	    List<ConnectedSocket> roomMembers = new ArrayList<>();
 
-	    // 대상 사용자와 방 인원을 찾음
 	    for (ConnectedSocket connectedSocket : SimpleGUIserver.connectedSocketList) {
 	        if (connectedSocket.username.equals(toUsername)) {
 	            targetSocket = connectedSocket;
 	        }
 	    }
 
-	    // 귓속말 메시지 보낼 대상 사용자가 존재하지 않는 경우
-	    if (targetSocket == null) {
-	        String errorMessage = "귓속말 메시지를 보낼 대상 사용자가 존재하지 않습니다.";
-	        RequestBodyDto<String> errorDto = new RequestBodyDto<>("errorMessage", errorMessage);
-	        ServerSender.getInstance().send(socket, errorDto);
-	    } else if (fromUsername.equals(toUsername)) {
-	        // 본인에게 귓속말을 보내는 경우
+	    	if (fromUsername.equals(toUsername)) {
 	        String errorMessage = "자신에게 귓속말을 보낼 수 없습니다.";
 	        RequestBodyDto<String> errorDto = new RequestBodyDto<>("errorMessage", errorMessage);
 	        ServerSender.getInstance().send(socket, errorDto);
-	    } else {
-	        // 대상 사용자에게 귓속말 메시지 전송
+	    	} else {
 	        RequestBodyDto<SendMessage> whisperMessageDto = new RequestBodyDto<>("receiveWhisperMessage", sendMessage);
 	        ServerSender.getInstance().send(targetSocket.socket, whisperMessageDto);
 
-	        // 발신자에게도 메시지 전송
 	        RequestBodyDto<SendMessage> selfWhisperMessageDto = new RequestBodyDto<>("receiveWhisperMessage", sendMessage);
 	        selfWhisperMessageDto.getBody().setFromUsername(username);
 	        ServerSender.getInstance().send(socket, selfWhisperMessageDto);

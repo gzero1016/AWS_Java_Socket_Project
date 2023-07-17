@@ -12,7 +12,7 @@ import server_socket.entity.Room;
 public class SimpleGUIserver {
 	
 	public static List<ConnectedSocket> connectedSocketList = new ArrayList<>();
-	public static List<Room> roomList = new ArrayList<>();	//리스트인 ConnectedSocket을 담는 Room 리스트를 생성
+	public static List<Room> roomList = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		
@@ -23,9 +23,9 @@ public class SimpleGUIserver {
 			while(true) {
 				Socket socket = serverSocket.accept();
 				System.out.println("접속");
-				ConnectedSocket connectedSocket = new ConnectedSocket(socket);	//Thread 객체
+				ConnectedSocket connectedSocket = new ConnectedSocket(socket);
 				connectedSocket.start();
-				connectedSocketList.add(connectedSocket);	//생성된 Thread 객체 리스트에 넣기
+				connectedSocketList.add(connectedSocket);
 			}
 			
 		} catch (IOException e) {

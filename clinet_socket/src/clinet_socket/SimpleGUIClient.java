@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import clinet_socket.dto.RequestBodyDto;
@@ -86,19 +87,29 @@ public class SimpleGUIClient extends JFrame {
     private String fromUsername;
 	private SendMessage whisperMessage;
 	
+	private ClientReceiver setUIFont;
+	
 	boolean isWhisperMessage;
+	
+	//글꼴
+    private void setUIFont(Font font) {
+        UIManager.getLookAndFeelDefaults().forEach((key, value) -> {
+            if (value instanceof Font) {
+                UIManager.put(key, font);
+            }
+        });
+    }
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SimpleGUIClient frame = SimpleGUIClient.getInstance();	//싱글톤 getInstance로 꺼내야함
+					SimpleGUIClient frame = SimpleGUIClient.getInstance();
 					frame.setVisible(true);
 					
 					ClientReceiver clientReceiver = new ClientReceiver();
 					clientReceiver.start();
 					
-					//어떤 클라이언트가 로그인 했는지 확인요청
 					RequestBodyDto<String> requestBodyDto = new RequestBodyDto<String>("connection", frame.username);
 					ClientSender.getInstance().send(requestBodyDto);
 					
@@ -118,7 +129,6 @@ public class SimpleGUIClient extends JFrame {
 			e1.printStackTrace();
 		}
 		
-		
 		//메인패널
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 429, 597);
@@ -133,7 +143,6 @@ public class SimpleGUIClient extends JFrame {
         loginPanel.setLayout(null);
         
         JLabel loginbackground = new JLabel(new ImageIcon("image/loginPanel.jpg"));
-        
         loginbackground.setBounds(0, 0, 416, 561);
         loginPanel.add(loginbackground);
         
@@ -141,11 +150,12 @@ public class SimpleGUIClient extends JFrame {
         
         //로그인 아이디 필드
         usernameTextField = new JTextField();
+        usernameTextField.setEnabled(true);
+//        usernameTextField.setFont("맑은고딕" );
         usernameTextField.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    // The user pressed Enter, perform the login actions
 
                     username = usernameTextField.getText();
 
@@ -154,13 +164,12 @@ public class SimpleGUIClient extends JFrame {
                         return;
                     }
 
-                    JOptionPane.showMessageDialog(loginPanel, "환영합니다. " + username + "님!", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(loginPanel, "환영합니다. " + username + " 님!", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
 
                     RequestBodyDto<String> requestBodyDto = new RequestBodyDto<>("connection", username);
                     ClientSender.getInstance().send(requestBodyDto);
 
-                    usernameLabel.setText(username + "   님");
-
+                    usernameLabel.setText(username + "  님");
                     mainCardLayout.show(mainCardPanel, "chattingRoomListPanel");
                 }
             }
@@ -169,6 +178,7 @@ public class SimpleGUIClient extends JFrame {
         usernameTextField.setBounds(12, 470, 291, 41);
         loginPanel.add(usernameTextField);
         usernameTextField.setColumns(10);
+        usernameTextField.setEnabled(true);
 
         //로그인 버튼
         loginButton = new JButton("로그인");
@@ -183,12 +193,12 @@ public class SimpleGUIClient extends JFrame {
                     return;
                 }
 
-                JOptionPane.showMessageDialog(loginPanel, "환영합니다. " + username + "님!", "로그인 성공",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(loginPanel, "환영합니다. " + username + " 님!", "로그인 성공",JOptionPane.PLAIN_MESSAGE);
 
                 RequestBodyDto<String> requestBodyDto = new RequestBodyDto<>("connection", username);
                 ClientSender.getInstance().send(requestBodyDto);
                
-                usernameLabel.setText(username + "   님");
+                usernameLabel.setText(username + " 님");
 
                 mainCardLayout.show(mainCardPanel, "chattingRoomListPanel");
                 
@@ -207,7 +217,7 @@ public class SimpleGUIClient extends JFrame {
 		chattingRoomListPanel.setLayout(null);
 		
 		// 내이름라벨
-		usernameLabel = new JLabel("님");
+		usernameLabel = new JLabel();
 		usernameLabel.setBounds(95, 58, 104, 24);
 		usernameLabel.setFont(usernameLabel.getFont().deriveFont(20f).deriveFont(Font.BOLD));
 		usernameLabel.setForeground(Color.BLACK);
@@ -234,7 +244,7 @@ public class SimpleGUIClient extends JFrame {
 					roomName = roomListModel.get(roomList.getSelectedIndex());	//선택된 방 인덱스번호를 가져와 모델에서 get 해서 roomName 가져옴
 					
 					roomLabel.setText("방제목:   " + roomName);
-					mainCardLayout.show(mainCardPanel, "chattingRoomPanel"); //메인카드패널에서 채팅룸패널로 이동
+					mainCardLayout.show(mainCardPanel, "chattingRoomPanel");
 					RequestBodyDto<String> requestBodyDto = new RequestBodyDto<String>("join", roomName);
 					ClientSender.getInstance().send(requestBodyDto);
 					
@@ -246,7 +256,7 @@ public class SimpleGUIClient extends JFrame {
 		
 		//방만들기 버튼
 		createRoomButton = new JButton("방만들기");
-		createRoomButton.setBounds(299, 53, 104, 34);	//버튼의 모양
+		createRoomButton.setBounds(299, 53, 104, 34);
 		createRoomButton.setFont(createRoomButton.getFont().deriveFont(15f).deriveFont(Font.BOLD));
 		createRoomButton.addMouseListener(new MouseAdapter() {
 			
@@ -270,14 +280,16 @@ public class SimpleGUIClient extends JFrame {
 				// 정상적인 방제목입력 할 시 정상 처리
 				RequestBodyDto<String> requestBodyDto = new RequestBodyDto<String>("createRoom", roomName);
 				ClientSender.getInstance().send(requestBodyDto);
-				mainCardLayout.show(mainCardPanel, "chattingRoomPanel"); //메인카드패널에서 채팅룸패널로 이동
+				mainCardLayout.show(mainCardPanel, "chattingRoomPanel");
 				requestBodyDto = new RequestBodyDto<String>("join", roomName);
 				ClientSender.getInstance().send(requestBodyDto);
 				roomLabel.setText("방제목:   " + roomName);
+                messageTextField.setEnabled(true);
+				
 			}
 		});
 		
-		chattingRoomListPanel.add(createRoomButton);	//어디에 추가할지 위치
+		chattingRoomListPanel.add(createRoomButton);
 		
 		//채팅방패널
 		chattingRoomPanel = new JPanel();
@@ -302,10 +314,14 @@ public class SimpleGUIClient extends JFrame {
 		//채팅창
 		JScrollPane chattingTextAreaScrollPane = new JScrollPane();
 		chattingTextAreaScrollPane.setBounds(12, 39, 277, 406);
-		chattingRoomPanel.add(chattingTextAreaScrollPane);
 		chattingTextArea = new JTextArea();
 		chattingTextAreaScrollPane.setViewportView(chattingTextArea);
 		
+		chattingTextArea.setEnabled(false);
+		chattingTextArea.setForeground(Color.BLACK);
+		chattingTextArea.setFont(chattingTextArea.getFont());
+		chattingRoomPanel.add(chattingTextAreaScrollPane);
+
 		//채팅방안 유저리스트
 		userListScrollPane = new JScrollPane();
 		userListScrollPane.setBounds(294, 36, 109, 409);
@@ -341,6 +357,7 @@ public class SimpleGUIClient extends JFrame {
 	        }
 	    }
 	});
+		
 		userListScrollPane.setViewportView(userList);
 		
 		//전체,귓말 라벨
@@ -351,6 +368,7 @@ public class SimpleGUIClient extends JFrame {
 		
 		//채팅입력창
 		messageTextField = new JTextField();
+		
 		messageTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -392,9 +410,9 @@ public class SimpleGUIClient extends JFrame {
 		    public void mouseClicked(MouseEvent e) {
 		        String messageBody = messageTextField.getText();
 
-		        whisperMessage.setMessageBody(messageBody);
 
 		        if (!TargetLabel.getText().equals("전체")) {
+		        	whisperMessage.setMessageBody(messageBody);
 		            RequestBodyDto<SendMessage> requestBodyDto =
 		                    new RequestBodyDto<>("sendWhisperMessage", whisperMessage);
 		            ClientSender.getInstance().send(requestBodyDto);
@@ -410,8 +428,6 @@ public class SimpleGUIClient extends JFrame {
 		            ClientSender.getInstance().send(requestBodyDto);
 		        }
 		        TargetLabel.setText("전체");
-		        whisperMessage.setFromUsername("");
-		        whisperMessage.setToUsername("");
 		        messageTextField.setText("");
 		    }
 		});

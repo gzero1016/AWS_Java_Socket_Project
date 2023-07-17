@@ -21,8 +21,7 @@ public class ClientReceiver extends Thread {
 		gson = new Gson();
 		
 		SimpleGUIClient simpleGUIClient = SimpleGUIClient.getInstance();
-		//SimpleGUIClient를 싱글톤으로 만들어야 사용가능하다.
-		
+
 		while(true) {
 			try {
 				BufferedReader bufferedReader = 
@@ -40,7 +39,7 @@ public class ClientReceiver extends Thread {
 	
 	private void requestController(String requestBody) {
 
-		String resource = gson.fromJson(requestBody, RequestBodyDto.class).getResource();	//해당 주소에있는 값 가져오기
+		String resource = gson.fromJson(requestBody, RequestBodyDto.class).getResource();
 		
 		switch(resource) {
 			case "updateRoomList":
@@ -62,7 +61,7 @@ public class ClientReceiver extends Thread {
             case "receiveWhisperMessage":
                 receiveWhisperMessage(requestBody);
                 break;
-				
+                		
 		}
 	}
 	
@@ -76,7 +75,7 @@ public class ClientReceiver extends Thread {
 	    String toUsername = whisperMessage.getToUsername();
 	    String messageBody = whisperMessage.getMessageBody();
 	    
-	    String whisperMessageContent = "[귓말] " + fromUsername + " --> " + toUsername + ": " + messageBody + "\n";
+	    String whisperMessageContent = "[귓말] " + toUsername + " --> " + messageBody + "\n";
 	    SimpleGUIClient.getInstance().getChattingTextArea().append(whisperMessageContent);
 	}
 	
@@ -90,21 +89,22 @@ public class ClientReceiver extends Thread {
 	// 메세지
 	private void showMessage(String requestBody) {
 		String messageContent = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-		SimpleGUIClient.getInstance().getChattingTextArea().append("[전체] " + messageContent + "\n");
+		SimpleGUIClient.getInstance().getChattingTextArea().append("[전체] " + messageContent + ": " + "\n");
 	}
 	
 	//방 유저 업데이트 리스트
 	private void updateUserList(String requestBody) {
 	    List<String> usernameList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
 	    
-	    usernameList.set(0, usernameList.get(0) + "( 방장 )");
+	    usernameList.set(0, usernameList.get(0) + "( 방장 )");	    
+	    SimpleGUIClient.getInstance().getMessageTextField().setEditable(true);
+	    SimpleGUIClient.getInstance().getMessageTextField().requestFocus();
 	    SimpleGUIClient.getInstance().getUserListModel().clear();
 	    SimpleGUIClient.getInstance().getUserListModel().addAll(usernameList);
-	}
+	    }
 	
-	// 채팅방 삭제
+	//채팅방 삭제
 	private void chattingTextClear(String requestBody) {
 			SimpleGUIClient.getInstance().getChattingTextArea().setText("");
 	}
-	
 }
