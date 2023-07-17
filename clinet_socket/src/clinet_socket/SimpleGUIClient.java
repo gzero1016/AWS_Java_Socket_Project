@@ -141,6 +141,31 @@ public class SimpleGUIClient extends JFrame {
         
         //로그인 아이디 필드
         usernameTextField = new JTextField();
+        usernameTextField.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    // The user pressed Enter, perform the login actions
+
+                    username = usernameTextField.getText();
+
+                    if (username.isBlank()) {
+                        JOptionPane.showMessageDialog(loginPanel, "닉네임을 확인해주세요.", "입장 실패", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    JOptionPane.showMessageDialog(loginPanel, "환영합니다. " + username + "님!", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
+
+                    RequestBodyDto<String> requestBodyDto = new RequestBodyDto<>("connection", username);
+                    ClientSender.getInstance().send(requestBodyDto);
+
+                    usernameLabel.setText(username + "   님");
+
+                    mainCardLayout.show(mainCardPanel, "chattingRoomListPanel");
+                }
+            }
+        });
+        
         usernameTextField.setBounds(12, 470, 291, 41);
         loginPanel.add(usernameTextField);
         usernameTextField.setColumns(10);
