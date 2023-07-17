@@ -259,6 +259,11 @@ public class ConnectedSocket extends Thread {
 	        String errorMessage = "귓속말 메시지를 보낼 대상 사용자가 존재하지 않습니다.";
 	        RequestBodyDto<String> errorDto = new RequestBodyDto<>("errorMessage", errorMessage);
 	        ServerSender.getInstance().send(socket, errorDto);
+	    } else if (fromUsername.equals(toUsername)) {
+	        // 본인에게 귓속말을 보내는 경우
+	        String errorMessage = "자신에게 귓속말을 보낼 수 없습니다.";
+	        RequestBodyDto<String> errorDto = new RequestBodyDto<>("errorMessage", errorMessage);
+	        ServerSender.getInstance().send(socket, errorDto);
 	    } else {
 	        // 대상 사용자에게 귓속말 메시지 전송
 	        RequestBodyDto<SendMessage> whisperMessageDto = new RequestBodyDto<>("receiveWhisperMessage", sendMessage);
@@ -268,6 +273,7 @@ public class ConnectedSocket extends Thread {
 	        RequestBodyDto<SendMessage> selfWhisperMessageDto = new RequestBodyDto<>("receiveWhisperMessage", sendMessage);
 	        selfWhisperMessageDto.getBody().setFromUsername(username);
 	        ServerSender.getInstance().send(socket, selfWhisperMessageDto);
+	        
 	    }
 	}
 }

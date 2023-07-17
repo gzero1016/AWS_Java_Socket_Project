@@ -97,27 +97,12 @@ public class ClientReceiver extends Thread {
 	//방 유저 업데이트 리스트
 	private void updateUserList(String requestBody) {
 	    List<String> usernameList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-	    String roomOwner = usernameList.get(0);
-	    String clientUsername = SimpleGUIClient.getInstance().getUsername();
-
+	    
+	    usernameList.set(0, usernameList.get(0) + "( 방장 )");
 	    SimpleGUIClient.getInstance().getUserListModel().clear();
-
-	    for (String username : usernameList) {
-	        if (username.equals(clientUsername) && username.equals(roomOwner)) {
-	        	
-	            SimpleGUIClient.getInstance().getUserListModel().addElement("<html><b><font color='blue'>" + username + "( 방장 )</font></b></html>");
-	        } else if (username.equals(clientUsername)) {
-	        	
-	            SimpleGUIClient.getInstance().getUserListModel().addElement("<html><b><font color='blue'>" + username + "</font></b></html>");
-	        } else if (username.equals(roomOwner)) {
-	        	
-	            SimpleGUIClient.getInstance().getUserListModel().addElement("<html><b>" + username + "( 방장 )</b></html>");
-	        } else {
-	        	
-	            SimpleGUIClient.getInstance().getUserListModel().addElement(username);
-	        }
-	    }
+	    SimpleGUIClient.getInstance().getUserListModel().addAll(usernameList);
 	}
+
 	
 	// 채팅방 삭제
 	private void chattingTextClear(String requestBody) {

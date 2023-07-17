@@ -213,7 +213,6 @@ public class SimpleGUIClient extends JFrame {
 					RequestBodyDto<String> requestBodyDto = new RequestBodyDto<String>("join", roomName);
 					ClientSender.getInstance().send(requestBodyDto);
 					
-					
 				}
 			}
 		});
@@ -301,6 +300,11 @@ public class SimpleGUIClient extends JFrame {
 	            if (selectedIndex >= 0) {
 	            	
 	                fromUsername = userListModel.getElementAt(selectedIndex);
+	                
+	                if(fromUsername.contains("( 방장 )")) {
+	                	fromUsername = fromUsername.replace("( 방장 )", "");
+	                }
+	                
 	                TargetLabel.setText(fromUsername);
 
 	                whisperMessage = SendMessage.builder()
@@ -324,7 +328,6 @@ public class SimpleGUIClient extends JFrame {
 		
 		//채팅입력창
 		messageTextField = new JTextField();
-		SendMessage whisperMessage = new SendMessage();
 		messageTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
