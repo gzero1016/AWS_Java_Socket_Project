@@ -15,7 +15,6 @@ public class SimpleGUIserver {
 	public static List<Room> roomList = new ArrayList<>();
 	
 	public static void main(String[] args) {
-		
 		try {
 			ServerSocket serverSocket = new ServerSocket(8000);
 			System.out.println("[ 서버실행 ]");
@@ -27,8 +26,7 @@ public class SimpleGUIserver {
 				connectedSocket.start();
 				connectedSocketList.add(connectedSocket);
 			}
-			
-		} catch (IOException e) {
+		}catch (IOException e) {
 			e.printStackTrace(); 
 		}
 	}

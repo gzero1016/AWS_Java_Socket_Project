@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,20 +35,25 @@ public class ConnectedSocket extends Thread {
 	
 	@Override
 	public void run() {
-		gson = new Gson();
-		
-		while(true) {
-				try {
-					BufferedReader bufferedReader = 
-							new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					String requestBody = bufferedReader.readLine();
-					
-					requestController(requestBody);
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		}
+	    gson = new Gson();
+	    
+	    try {
+	        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+	        while (true) {
+	            String requestBody = bufferedReader.readLine();
+
+	            if (requestBody == null) {
+	                System.out.println("클라이언트와 연결이 끊어졌습니다.");
+	                break;
+	            }
+	            requestController(requestBody);
+	        }
+	    } catch (SocketException e) {
+	        System.out.println("프로그램을 종료합니다.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	private void requestController(String requestBody) {

@@ -151,7 +151,6 @@ public class SimpleGUIClient extends JFrame {
         //로그인 아이디 필드
         usernameTextField = new JTextField();
         usernameTextField.setEnabled(true);
-//        usernameTextField.setFont("맑은고딕" );
         usernameTextField.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyPressed(KeyEvent e) {
@@ -318,8 +317,7 @@ public class SimpleGUIClient extends JFrame {
 		chattingTextAreaScrollPane.setViewportView(chattingTextArea);
 		
 		chattingTextArea.setEnabled(false);
-		chattingTextArea.setForeground(Color.BLACK);
-		chattingTextArea.setFont(chattingTextArea.getFont());
+		chattingTextArea.setDisabledTextColor(Color.BLACK);
 		chattingRoomPanel.add(chattingTextAreaScrollPane);
 
 		//채팅방안 유저리스트
