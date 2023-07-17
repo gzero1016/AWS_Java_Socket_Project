@@ -25,7 +25,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import clinet_socket.dto.RequestBodyDto;
@@ -90,15 +89,6 @@ public class SimpleGUIClient extends JFrame {
 	private ClientReceiver setUIFont;
 	
 	boolean isWhisperMessage;
-	
-	//글꼴
-    private void setUIFont(Font font) {
-        UIManager.getLookAndFeelDefaults().forEach((key, value) -> {
-            if (value instanceof Font) {
-                UIManager.put(key, font);
-            }
-        });
-    }
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
