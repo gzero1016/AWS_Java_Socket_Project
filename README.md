@@ -19,7 +19,7 @@
 ![image](https://github.com/gzero1016/AWS_java_socket_project/assets/129514217/235e903e-bd67-4aaa-b83c-0c10c7596ab6)
 
 ## chattingRoom
-![image](https://github.com/gzero1016/AWS_java_socket_project/assets/129514217/f3b6ae88-39a5-4576-8760-85b2def471eb)
+![image](https://github.com/gzero1016/AWS_java_socket_project/assets/129514217/b6acc20e-18ba-4c47-9d2d-648c4af4ff27)
 
 ## 기능
 1. login 화면 usernameTextField 활성화
