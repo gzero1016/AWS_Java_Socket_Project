@@ -84,7 +84,7 @@ public class SimpleGUIClient extends JFrame {
 	
 	private String targetUsername = "전체";
 	private boolean isWhisperMode = false;
-    private String fromUsername;
+    private String toUsername;
 	private SendMessage whisperMessage;
 	
 	public static void main(String[] args) {
@@ -321,17 +321,17 @@ public class SimpleGUIClient extends JFrame {
 	            selectedIndex = userList.getSelectedIndex();
 	            if (selectedIndex >= 0) {
 	            	
-	                fromUsername = userListModel.getElementAt(selectedIndex);
+	                toUsername = userListModel.getElementAt(selectedIndex);
 	                
-	                if(fromUsername.contains("( 방장 )")) {
-	                	fromUsername = fromUsername.replace("( 방장 )", "");
+	                if(toUsername.contains("( 방장 )")) {
+	                	toUsername = toUsername.replace("( 방장 )", "");
 	                }
 	                
-	                TargetLabel.setText(fromUsername);
+	                TargetLabel.setText(toUsername);
 
 	                whisperMessage = SendMessage.builder()
 	                        .fromUsername(username)
-	                        .toUsername(fromUsername)
+	                        .toUsername(toUsername)
 	                        .build();
 	                
 	                messageTextField.setEnabled(true);

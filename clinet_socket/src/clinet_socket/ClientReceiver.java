@@ -43,7 +43,7 @@ public class ClientReceiver extends Thread {
 		
 		switch(resource) {
 			case "updateRoomList":
-				updateRoomList(requestBody);
+				updateRoomList(requestBody); 
 				break;
 				
 			case "showMessage":
@@ -70,12 +70,9 @@ public class ClientReceiver extends Thread {
 	    TypeToken<RequestBodyDto<SendMessage>> typeToken = new TypeToken<>() {};
 	    RequestBodyDto<SendMessage> requestBodyDto = gson.fromJson(requestBody, typeToken.getType());
 	    SendMessage whisperMessage = requestBodyDto.getBody();
-
-	    String toUsername = whisperMessage.getToUsername();
-	    String messageBody = whisperMessage.getMessageBody();
 	    
 	    //whisperMessageContent 문자열로 담아서 SimpleGUIClient에 추가한다.
-	    String whisperMessageContent = "[귓말] " + toUsername + " --> " + messageBody + "\n";
+	    String whisperMessageContent = "[귓말] " + whisperMessage.getToUsername() + " --> " + whisperMessage.getMessageBody() + "\n";
 	    SimpleGUIClient.getInstance().getChattingTextArea().append(whisperMessageContent);
 	}
 	
