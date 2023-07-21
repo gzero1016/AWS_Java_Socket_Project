@@ -26,10 +26,6 @@ public class ConnectedSocket extends Thread {
 	private Gson gson;
 	
 	private String username;
-	private SendMessage toUsername;
-	private String fromUsername;
-	private String whisperMessage;
-	private String room;
 	private Object roomName; 
 	
 	@Override
