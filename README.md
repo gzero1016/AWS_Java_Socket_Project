@@ -2,9 +2,7 @@
 [AWS] 산대특 자바 멀티 채팅 프로젝트
 
 ## </div>
-<img src="https://img.shields.io/badge/java-007396?style=flat-false&logo=java&logoColor=white"> 
-<img src="https://img.shields.io/badge/github-181717?style=flat-false&logo=github&logoColor=white"> 
-<img src="https://img.shields.io/badge/git-F05032?style=flat-false&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/java-007396?style=flat-false&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=flat-false&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=flat-false&logo=git&logoColor=white">
 
 ## login 화면
 ![image](https://github.com/gzero1016/AWS_java_socket_project/assets/129514217/70b08ef1-e7d2-4964-82cc-6c216a5d17ec)
